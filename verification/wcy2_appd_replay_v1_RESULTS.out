@@ -1,0 +1,21 @@
+========================================================================
+[A] Prop A.1 orbit detectors on R (exhaustive pairs)
+PASS
+========================================================================
+[B] Thm 4.1 collapse: App.B proof-structure replay
+n=1: closure size = 16, |Eqv_P| = 16, expect 16
+n=2: equivariant functions checked = 65536 (expect 65536); B.3 identity ok = True
+PASS  (closure superset via (i)+(ii) structural induction; exactness via (iii))
+========================================================================
+[C] Prop C.1/C.2 escape and recovered min/max
+PASS
+========================================================================
+[D9]/[D21] one-step decrement audit
+n=2: {'nonmono': 10, 'interval_ok': 10, 'd9_checked': 12, 'd9_fail': 0, 'd21_fail': 0, 'canon_fail': 0, 'residual': 0}
+n=3: {'nonmono': 236, 'interval_ok': 236, 'd9_checked': 452, 'd9_fail': 0, 'd21_fail': 0, 'canon_fail': 0, 'residual': 0}
+n=4: {'nonmono': 65368, 'interval_ok': 65368, 'd9_checked': 0, 'd9_fail': 0, 'd21_fail': 0, 'canon_fail': 0, 'residual': 0}
+========================================================================
+[E3] prefix lowering creates no new descents (randomized)
+PASS
+
+ALL AUDIT REPLAYS PASSED.

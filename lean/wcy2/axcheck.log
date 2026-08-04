@@ -1,0 +1,58 @@
+info: Wcy2: no previous manifest, creating one from scratch
+info: toolchain not updated; already up-to-date
+✔ [3/17] Built DecBridge.Words (6.1s)
+✔ [4/17] Built Wcy2.D4 (9.4s)
+✔ [5/17] Built DecBridge.Subadd (6.7s)
+✔ [6/17] Built Wcy2.Transfer (5.0s)
+✔ [7/17] Built DecBridge.Hgen (5.3s)
+✔ [8/17] Built Wcy2.RTerm (6.2s)
+✔ [9/17] Built DecBridge.Cube (4.8s)
+✔ [10/17] Built DecBridge.CubeViol (3.9s)
+✔ [11/17] Built DecBridge.CubeDec (4.5s)
+⚠ [12/17] Built DecBridge.Tower (4.3s)
+warning: DecBridge/Tower.lean:246:14: This simp argument is unused:
+  hfp
+
+Hint: Omit it from the simp argument list.
+  simp [h̵f̵p̵,̵ ̵ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: DecBridge/Tower.lean:248:14: This simp argument is unused:
+  hfp
+
+Hint: Omit it from the simp argument list.
+  simp [hfp̵,̵ ̵h̵f̵z, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [13/17] Built Wcy2.NuLower (4.9s)
+⚠ [14/17] Built Wcy2.NuUpper (4.4s)
+warning: Wcy2/NuUpper.lean:53:27: This simp argument is unused:
+  Bool.and_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [List.all_cons,̵ ̵B̵o̵o̵l̵.̵a̵n̵d̵_̵a̵s̵s̵o̵c̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [15/17] Built Wcy2.PriceOfNot (3.0s)
+ℹ [16/17] Built Wcy2 (2.8s)
+info: Wcy2.lean:19:0: 'Wcy2.cterm_monotone' depends on axioms: [propext]
+info: Wcy2.lean:20:0: 'Wcy2.cterm_endpoints' does not depend on any axioms
+info: Wcy2.lean:21:0: 'Wcy2.cterm_equivariant' does not depend on any axioms
+info: Wcy2.lean:22:0: 'Wcy2.sigd_invol' does not depend on any axioms
+info: Wcy2.lean:23:0: 'Wcy2.sigma_not_monotone' does not depend on any axioms
+info: Wcy2.lean:24:0: 'Wcy2.escape' does not depend on any axioms
+info: Wcy2.lean:25:0: 'Wcy2.recovery' does not depend on any axioms
+info: Wcy2.lean:26:0: 'Wcy2.reentry_independent' does not depend on any axioms
+info: Wcy2.lean:27:0: 'Wcy2.sigma_eq_P_on_R' does not depend on any axioms
+info: Wcy2.lean:28:0: 'Wcy2.deval_inR' does not depend on any axioms
+info: Wcy2.lean:29:0: 'Wcy2.deval_envOf' depends on axioms: [propext]
+info: Wcy2.lean:30:0: 'Wcy2.chainDrops_and' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:31:0: 'Wcy2.chainDrops_or' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:32:0: 'Wcy2.chainDrops_not' depends on axioms: [propext]
+info: Wcy2.lean:33:0: 'Wcy2.dec_le_sigCount' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:34:0: 'Wcy2.mono_realize' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:35:0: 'Wcy2.tower_realize' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:36:0: 'Wcy2.nu_upper' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:37:0: 'Wcy2.nu_eq_dec_bool' depends on axioms: [propext, Quot.sound]
+info: Wcy2.lean:38:0: 'Wcy2.nu_eq_dec_D4' depends on axioms: [propext, Quot.sound]
+Build completed successfully (17 jobs).

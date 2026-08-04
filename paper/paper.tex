@@ -1,0 +1,1059 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\Dfour}{\ensuremath{\mathsf{D4}}}
+\newcommand{\UNK}{\ensuremath{\mathsf{UNK}}}
+\newcommand{\FAL}{\ensuremath{\mathsf{FAL}}}
+\newcommand{\TRU}{\ensuremath{\mathsf{TRU}}}
+\newcommand{\CON}{\ensuremath{\mathsf{CON}}}
+\newcommand{\meetk}{\ensuremath{\wedge_k}}
+\newcommand{\joink}{\ensuremath{\vee_k}}
+\newcommand{\meetR}{\ensuremath{\mathrm{meet}_R}}
+\newcommand{\joinR}{\ensuremath{\mathrm{join}_R}}
+\newcommand{\Clo}{\ensuremath{\mathrm{Clo}}}
+\newcommand{\Eqv}{\mathrm{Eqv}}
+\newcommand{\mcr}{\ensuremath{\mathrm{mcr}}}
+\newcommand{\dec}{\ensuremath{\mathrm{dec}}}
+\newcommand{\desc}{\mathrm{desc}}
+\newcommand{\asc}{\mathrm{asc}}
+\newcommand{\bits}{\mathit{bits}}
+
+\title{The Price of NOT on \Dfour}
+\author{Won Chul Yang\\ \small Seoul, Republic of Korea \\ \small \texttt{lamb5228@snu.ac.kr}}
+\date{Public edition v1.0 --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}\small\itshape
+Revised from the 2026 preprint: the exact-cost appendix is simplified to a
+single interval-shell regime via the new unconditional lemma $W_f \subseteq
+B_f$ (Theorem~\ref{thm:WB}), discovered during the machine-verified audit of
+the original proof. All headline results are machine-verified in Lean~4
+(kernel axioms \texttt{propext}, \texttt{Quot.sound} at most; no
+\texttt{native\_decide}, no \texttt{sorry}, no mathlib); see
+Section~\ref{sec:mech}.
+\end{center}
+
+\begin{abstract}
+This paper studies the Price of NOT on the resolved face of the four-state
+dual-rail carrier \Dfour. Its sharp quantitative result is the exact
+resolved-face theorem $\nu(f)=\dec(f)$. The surrounding carrier material is
+used only as a compact ambient support package: the closed core
+$G=\Clo\{\meetk,\joink,P\}$, the confinement-breaking involution $\sigma_s$,
+the corrected $P$-equivariant-collapse theorem, and the absorbed-face
+transfer needed to place the exact theorem inside one compatible carrier
+presentation. Appendix~D contains the proof architecture for the exact-cost
+theorem --- in this edition a single interval-shell regime, made
+unconditional by the new lemma $W_f\subseteq B_f$.
+\end{abstract}
+
+\noindent\textbf{Keywords:} negation complexity; inversion complexity;
+dual-rail carriers; resolved-face transfer; epistemic logic.\\
+\textbf{MSC 2020:} 03B50, 03C05, 06A06, 68Q65.
+
+\section{Introduction}\label{sec:intro}
+
+This paper starts from the earlier resolved-block theorem of Paper~I
+\cite{wcy1} and asks whether its exact price of negation persists when
+viewed through a compatible four-state dual-rail carrier frame \Dfour. It
+does: on the resolved block $R=\{\FAL,\TRU\}$, the minimal syntactic
+negation count $\nu(f)$ is exactly the chain decrease number $\dec(f)$ for
+every nonconstant $f:R^n\to R$. The larger carrier frame is admitted only
+insofar as it sharpens the boundary around this exact law.
+
+For Boolean functions, the price of negation is classical: Markov
+\cite{markov} determined the circuit inversion complexity as
+$\lceil\log_2(d(f)+1)\rceil$, and Morizumi \cite{morizumi} proved the
+formula-level law is exact, $I_{\mathrm{for}}(f)=d(f)$. The present paper
+proves the formula-exact law in the four-valued dual-rail setting, with a
+proof intrinsic to the recovered resolved-face language; the relation to the
+Boolean transport route is discussed at Theorem~\ref{thm:exact}.
+
+The supporting package has six layers: (1) the \Dfour{} carrier and its
+two-coordinate presentation; (2) the qualitative closed core
+$G=\Clo\{\meetk,\joink,P\}$; (3) the confinement-breaking operation
+$\sigma_s$; (4) the corrected expressive-collapse theorem; (5) the
+gate-absorbed resolved-face transfer into Theorem~\ref{thm:exact}; (6) the
+unary geometric and narrow execution specializations.
+
+The paper does not claim that adjoining $\sigma_s$ yields all functions on
+\Dfour; the correct target class is the full $P$-equivariant clone. It also
+does not promote $NCP$, the Arrow of Computation, variable-cost RG, or
+empirical bridge results to headline theorems. The outer
+crown/constant-barrier picture belongs more naturally to a broader carrier
+companion line; here it remains background, while $\nu(f)=\dec(f)$ remains
+the sharp quantitative face of the paper.
+
+The closed core preserves the internal symmetry and endpoint discipline of
+the carrier, while $\sigma_s$ breaks that discipline without crossing the
+rail-swap fence. On the resolved face, the earlier theorem surface is
+recovered not as a plain restriction $G|_R$, but through a fixed
+absorbed-face presentation compatible with the decompressed carrier theory.
+This supplies an ambient gateway into the exact theorem rather than a
+replacement theorem spine. The appendix structure mirrors that proof
+architecture: Appendix~A records the closed-core background, Appendix~B
+proves the corrected collapse, Appendix~C fixes the absorbed-face transfer,
+Appendix~D contains the exact-cost proof, and Appendix~E isolates the chain
+bookkeeping used there.
+
+\paragraph{What changed in this edition.}
+The audit of the original exact-cost appendix (a full machine replay of
+every layer) revealed that its residual regime --- the local witness
+reduction, star-local fiber coherence, and five-case rerouting layers --- is
+vacuous: the containment $W_f\subseteq B_f$ holds \emph{unconditionally}
+(Theorem~\ref{thm:WB}), so the interval-shell regime always applies and the
+residual layers can never be reached. This edition therefore proves the
+upper bound through the single interval-shell regime. The original
+compressed classification arguments are superseded, not corrected: no error
+was found in any reachable layer.
+
+\section{The \Dfour{} Carrier and the Closed Monotone Core}
+
+\subsection{Carrier}
+Let $\Dfour=\{\UNK,\FAL,\TRU,\CON\}$, identified with the dual-rail carrier
+$\{0,1\}^2$ by
+\[
+\UNK=(0,0),\quad \FAL=(0,1),\quad \TRU=(1,0),\quad \CON=(1,1).
+\]
+Use the coordinate functions $s=(e^++e^-)/2$ and $d=(e^+-e^-)/2$, so that
+$s(\UNK)=0$, $s(\FAL)=s(\TRU)=1/2$, $s(\CON)=1$, and $d(\UNK)=0$,
+$d(\FAL)=-1/2$, $d(\TRU)=1/2$, $d(\CON)=0$.
+
+Let $P$ denote rail-swap: $P(\UNK)=\UNK$, $P(\FAL)=\TRU$, $P(\TRU)=\FAL$,
+$P(\CON)=\CON$. The internal lattice operations are coordinatewise meet and
+join in the knowledge order:
+\[
+(a,b)\meetk(c,d)=(a\wedge c,\,b\wedge d),\qquad
+(a,b)\joink(c,d)=(a\vee c,\,b\vee d).
+\]
+
+\subsection{Closed Core}
+Define the closed carrier core $G=\Clo\{\meetk,\joink,P\}$. In the main
+text we use only the following qualitative theorem.
+
+\begin{theorem}[Qualitative closed-core soundness]\label{thm:core}
+Every term operation in $G$ is monotone for the knowledge order, preserves
+both endpoints $\UNK$ and $\CON$, and is $P$-equivariant.
+\end{theorem}
+
+This is the forward-confinement background for the rest of the paper.
+Stronger converse characterizations are left to Appendices~A and~B.
+
+\section{The Confinement-Breaking Operation}
+
+Define the simultaneous rail-complement involution
+$\sigma_s(a,b)=(1-a,\,1-b)$; equivalently $\sigma_s(\UNK)=\CON$,
+$\sigma_s(\FAL)=\TRU$, $\sigma_s(\TRU)=\FAL$, $\sigma_s(\CON)=\UNK$.
+
+\begin{theorem}[Confinement-breaking algebraic move]\label{thm:sigma}
+The operation $\sigma_s$ is an involution, commutes with $P$, fails to
+preserve both endpoints, and is non-monotone for the knowledge order.
+\end{theorem}
+
+These are the only carrier-level facts needed later. No uniqueness claim is
+used in the main theorem surface; when a stronger phrase is convenient, the
+safe one is that $\sigma_s$ is a non-monotone completing primitive.
+
+\section{Carrier Collapse with the Correct Symmetry Fence}
+
+For each arity $n\ge 1$, let $C_n$ be the $n$-ary term clone generated by
+projections together with $\meetk,\joink,P,\sigma_s$. Let $P$ act
+coordinatewise on $\Dfour^n$, and define
+\[
+\Eqv_P(n)=\{f:\Dfour^n\to\Dfour \mid f(Px)=P(f(x))\ \text{for all}\ x\}.
+\]
+
+\begin{theorem}[Corrected expressive-collapse theorem]\label{thm:collapse}
+For every arity $n\ge 1$, $C_n=\Eqv_P(n)$.
+\end{theorem}
+
+Write $x_i=(p_i,q_i)$ and $\bits(x)=(p_1,q_1,\dots,p_n,q_n)$, and let $S$
+denote rail-swap on bit tuples.
+
+\begin{lemma}[Rail-swap soundness]\label{lem:soundness}
+For every $n$-ary term $t$ built from projections, $\meetk$, $\joink$, $P$,
+and $\sigma_s$, there exists a Boolean function
+$\phi_t:\{0,1\}^{2n}\to\{0,1\}$ such that
+$t(x)=(\phi_t(\bits(x)),\,\phi_t(S(\bits(x))))$ for all $x\in\Dfour^n$. In
+particular, every term operation in $C_n$ is $P$-equivariant.
+\end{lemma}
+
+\begin{lemma}[Formula lifting]\label{lem:lifting}
+Let $\phi$ be a Boolean formula in the variables $p_1,q_1,\dots,p_n,q_n$.
+Then there exists an $n$-ary carrier term $T_\phi$ over
+$\meetk,\joink,P,\sigma_s$ such that
+$T_\phi(x)=(\phi(\bits(x)),\,\phi(S(\bits(x))))$ for all $x\in\Dfour^n$.
+\end{lemma}
+
+Theorem~\ref{thm:collapse} follows by combining Lemma~\ref{lem:soundness}
+with Lemma~\ref{lem:lifting}: the generators enforce exactly
+$P$-equivariance, and every $P$-equivariant carrier map is recovered from a
+single Boolean coordinate formula; the full proof is given in Appendix~B.
+
+Two boundary remarks will be used later. Adjoining $\sigma_s$ yields the
+maximal class compatible with rail-swap symmetry, namely the full
+$P$-equivariant clone, not all carrier maps; compare the finite-set clone
+viewpoint in \cite{lau,post}. On the resolved face $R=\{\FAL,\TRU\}$, the
+zero-constant outer fragment is the $P$-equivariant crown fragment, and
+adjoining one resolved constant completes it. This gives a coarse outer
+invariant $\nu_{\mathrm{carrier}}$, but not the paper's main quantitative
+theorem.
+
+\section{Resolved-Face Transfer and Exact Cost}\label{sec:transfer}
+
+Let $R=\{\FAL,\TRU\}$. The resolved-face theory is not obtained by plain
+restriction of the internal carrier generators.
+
+\begin{proposition}[Plain restriction is insufficient]\label{prop:plain}
+On mixed resolved inputs, the internal carrier operations leave the
+resolved face:
+\[
+\meetk(\FAL,\TRU)=\UNK,\quad \meetk(\TRU,\FAL)=\UNK,\quad
+\joink(\FAL,\TRU)=\CON,\quad \joink(\TRU,\FAL)=\CON.
+\]
+Hence the resolved-block operations of the narrow manuscript cannot be
+obtained by plain restriction of the internal carrier generators.
+\end{proposition}
+
+Fix designated re-entry data $\rho_{\mathrm{meet}}(\UNK)=\FAL$,
+$\rho_{\mathrm{join}}(\CON)=\TRU$, with
+$\rho_{\mathrm{meet}}|_R=\rho_{\mathrm{join}}|_R=\mathrm{id}_R$, and define
+\[
+\meetR(a,b)=\rho_{\mathrm{meet}}(a\meetk b),\qquad
+\joinR(a,b)=\rho_{\mathrm{join}}(a\joink b).
+\]
+
+\begin{proposition}[Gate-absorbed recovery of the resolved face]
+After fixing the designated re-entry data, the resolved-face operations are
+recovered from carrier evaluation by absorbed re-entry on the only escaping
+mixed cases.
+\end{proposition}
+
+\paragraph{Transfer principle.}
+The earlier resolved-block language is not obtained by plain restriction of
+$\meetk,\joink,P$ to $R$; rather, after fixing the designated re-entry data
+for the two escaping mixed cases, it is recovered through a specific
+absorbed-face presentation compatible with the decompressed carrier theory.
+We use this presentation only as the gateway from carrier background to the
+exact resolved-face theorem. The underlying table lemmas are recorded in
+Appendix~C.
+
+The exact-cost proof is phrased in order-theoretic terms: $\mcr(f)$ is the
+maximal chain-reversal count and $\nu(f)$ is the resolved-face negation
+complexity in the recovered term language. An alternative Boolean transport
+route may be compared with Morizumi's formula-level inversion result
+\cite{morizumi}, but the proof used here is intrinsic to the recovered
+resolved-face language.
+
+\begin{theorem}[Exact negation complexity on the resolved face]
+\label{thm:exact}
+For every nonconstant function $f:R^n\to R$, the minimal number $\nu(f)$ of
+syntactic negation occurrences is exactly the chain decrease number
+$\dec(f)$.
+\end{theorem}
+
+\begin{proof}[Proof outline]
+For the lower bound, projections contribute no chain reversal, $\meetR$ and
+$\joinR$ are reversal-subadditive, and one occurrence of $\sigma$
+contributes at most one new reversal along any chain; see Appendix~D.1.
+Hence $\mcr(f)\le\nu(f)$.
+
+For the upper bound, Appendix~D supplies a one-$\sigma$ lowering step in a
+\emph{single} regime: by Theorem~\ref{thm:WB} the containment
+$W_f\subseteq B_f$ holds unconditionally, so the $A_f$-ideal closure of
+$W_f$ is always an interval shell $S$ with $W_f\subseteq S\subseteq B_f$,
+realized by one occurrence of $\sigma$, and the lowered residual satisfies
+$\mcr(f_S)=\mcr(f)-1$ (Theorem~\ref{thm:decrement}). The inductive
+completion in Appendix~D.3 then gives $\nu(f)\le\mcr(f)$, hence
+$\nu(f)=\dec(f)$.
+\end{proof}
+
+This remains the sharp observable of the paper; the larger carrier story is
+used only as compact ambient support for this theorem and should not be
+read as displacing it. Appendices~B and~C prepare the recovered resolved
+face, Appendix~D proves the exact theorem, and Appendix~E isolates the
+auxiliary chain language used in that proof.
+
+\section{Unary Geometry of Negation}
+
+On the resolved face $R=\{\FAL,\TRU\}$, write $\sigma=\sigma_s|_R$. Since
+both $P$ and $\sigma_s$ exchange $\FAL$ and $\TRU$, their restrictions to
+$R$ agree.
+
+\begin{proposition}[Unary resolved-face term classification]
+The unary resolved-face term functions are exactly
+\[
+\mathrm{id}_R,\qquad \sigma,\qquad
+c_{\FAL}(x)=\meetR(x,\sigma(x)),\qquad
+c_{\TRU}(x)=\joinR(x,\sigma(x)).
+\]
+\end{proposition}
+
+\begin{theorem}[Unary flip-localization]
+In the unary dual-rail resolved slice, the restricted negation
+$\sigma=\sigma_s|_R=P|_R$ is the unique flip-sign reverser.
+\end{theorem}
+
+This is the cleanest geometric specialization of the exact-cost theorem: in
+the unary resolved slice, $\sigma$ is the only genuine direction-reversing
+map.
+
+\section{Executed Reversals Under Finite Episode Energy}
+
+The execution layer remains narrow. It specializes the finite-event budget
+argument of Paper~I \cite{wcy1} and does not claim a thermodynamic theorem
+in the sense of the classical Landauer--Bennett discussion
+\cite{landauer,bennett}. We count only executed unary resolved reversals,
+namely events moving between $\FAL$ and $\TRU$ on the resolved slice.
+
+\begin{theorem}[Finite executed reversal bound]
+Under finite episode energy $E_\tau<\infty$ and a fixed positive cost
+$\epsilon_{\mathrm{rev}}>0$ per executed unary flip-sign reversal, only
+finitely many such executed reversals can occur, bounded by
+$\lfloor E_\tau/\epsilon_{\mathrm{rev}}\rfloor$.
+\end{theorem}
+
+\begin{corollary}[Bounded reversal reachability]
+A finite episode may fail to realize some unary resolved reversals that
+become realizable only in a larger episode with a larger available budget.
+\end{corollary}
+
+This section does not claim a variable-cost RG theorem, a three-channel
+energy theorem, a general syntax-versus-execution lower bound, or a
+higher-arity execution classification.
+
+\section{Scope and Outlook}
+
+The paper proves a broader theorem package than the earlier resolved-block
+manuscript, but the exact observable remains $\nu(f)=\dec(f)$ on the
+resolved face. Carrier-level additions are admitted only if they sharpen
+that observable. For the same reason, the broader carrier line is companion
+background rather than the main ownership claim of the present paper. The
+following remain outside the main theorem surface: $NCP$ as a headline
+theorem; the Arrow of Computation as a headline theorem; variable-cost RG
+or three-channel energy theoremization; empirical bridge material.
+
+\subsection{Appendix Order}
+The appendix order is: Appendix~A, qualitative and enumerative proof
+material for $G$; Appendix~B, the full proof of corrected
+Theorem~\ref{thm:collapse}; Appendix~C, the decompression and transfer
+lemmas placing the resolved face correctly; Appendix~D, the
+exact-complexity proof package for Theorem~\ref{thm:exact} (single
+interval-shell regime in this edition); Appendix~E, chain-reversal, mcr,
+and $\Lambda^{up}$ tools where they clarify the exact theorem.
+
+\section{Mechanization}\label{sec:mech}
+
+Every headline statement of this paper is machine-verified in
+dependency-minimal Lean~4 (core only; no mathlib; no
+\texttt{native\_decide}; no \texttt{sorry}; kernel axiom profile at most
+\texttt{[propext, Quot.sound]}, with the finite table facts axiom-free).
+The artifact accompanies this paper and comprises:
+\begin{itemize}
+\item \textbf{Theorem~\ref{thm:core}} --- \texttt{cterm\_monotone},
+  \texttt{cterm\_endpoints}, \texttt{cterm\_equivariant} (structural
+  induction over a closed-core term syntax);
+\item \textbf{Theorem~\ref{thm:sigma}} --- \texttt{sigd\_invol},
+  \texttt{sigd\_Pd}, \texttt{sigd\_breaks\_endpoints},
+  \texttt{sigma\_not\_monotone} (axiom-free);
+\item \textbf{Propositions C.1/C.2/C.4} --- \texttt{escape},
+  \texttt{recovery}, \texttt{reentry\_independent} (axiom-free);
+\item \textbf{Appendix~D lower bound} --- the per-chain subadditivity
+  lemmas \texttt{chainDrops\_and}, \texttt{chainDrops\_or}, and the
+  end-value-refined alternation law \texttt{chainDrops\_not}, assembled
+  into \texttt{dec\_le\_sigCount};
+\item \textbf{Appendix~D upper bound} --- the nested one-$\sigma$ peel is
+  built on a mechanized tower library: the interval-shell decrement, the
+  explicit uniform witness, and the constructive monotone extension
+  (\texttt{tower\_of\_decPts}), together with the monotone-DNF realization
+  (\texttt{mono\_realize}) and the tower-to-term assembly
+  (\texttt{tower\_realize});
+\item \textbf{Theorem~\ref{thm:exact}} --- \texttt{nu\_eq\_dec\_D4}: the
+  exact equality, stated with terms evaluated on the resolved face by the
+  absorbed operations $\meetR$, $\joinR$ and $\sigma$, for nonconstant $f$
+  on the $n$-cube.
+\end{itemize}
+
+In addition, the original appendix was audited by exhaustive machine
+replay: the closed-core and collapse layers, the transfer tables, the
+interval-shell theorem (all 464 valid shells at $n\le 3$; the canonical
+shell at $n=4$), and the inductive completion ($65{,}368/65{,}368$
+nonconstant cases at $n\le 4$). The audit also verified computationally
+that the residual of the interval regime is empty for all $n\le 4$ --- the
+observation that led to Theorem~\ref{thm:WB}. The replay scripts and logs
+are included in the artifact repository.
+
+\appendix
+
+\section{Qualitative and Enumerative Core Material}
+
+This appendix records the forward qualitative facts about the closed core
+$G=\Clo\{\meetk,\joink,P\}$ used in the main text. Their broader natural
+home is the companion carrier line; here they are retained only to keep the
+transfer-to-exact package self-contained.
+
+\subsection{Proof of the qualitative soundness theorem}
+
+\begin{proof}[Proof of Theorem~\ref{thm:core}]
+Each generator is monotone for the knowledge order. The operations $\meetk$
+and $\joink$ are coordinatewise meet and join on $\{0,1\}^2$, hence are
+monotone. The involution $P$ is order-preserving because it only swaps the
+two coordinates.
+
+Each generator also preserves the endpoints $\UNK=(0,0)$ and $\CON=(1,1)$:
+$\meetk(\UNK,\UNK)=\UNK$, $\joink(\UNK,\UNK)=\UNK$,
+$\meetk(\CON,\CON)=\CON$, $\joink(\CON,\CON)=\CON$, and $P(\UNK)=\UNK$,
+$P(\CON)=\CON$.
+
+Finally, every generator is $P$-equivariant. For the involution itself this
+is immediate. For $\meetk$ and $\joink$, coordinatewise meet and join
+commute with swapping the two coordinates. Since monotonicity, endpoint
+preservation, and $P$-equivariance are all stable under composition, every
+term operation in $G$ has the same three properties.
+\end{proof}
+
+\subsection{Small carrier checks}
+
+The proof above uses only the generator-level identities. For convenience,
+we record the two endpoint rows explicitly:
+\[
+\UNK\meetk x=\UNK,\quad \UNK\joink x=x,\qquad
+\CON\meetk x=x,\quad \CON\joink x=\CON.
+\]
+Thus $\UNK$ and $\CON$ behave as the lower and upper endpoints of the
+internal knowledge order, while $P$ fixes those endpoints and exchanges the
+resolved states $\FAL$ and $\TRU$.
+
+\begin{remark}
+The appendix does not attempt a converse description of the full core $G$.
+The main text uses only the forward confinement theorem, and the stronger
+carrier-collapse statement appears only after adjoining $\sigma_s$ in
+Appendix~B.
+\end{remark}
+
+\subsection{Orbit detectors on the resolved face}
+
+Work now on the resolved face $R=\{\FAL,\TRU\}$, $E=\{\UNK,\CON\}$. Every
+$P$-orbit in $R^n$ has size 2, and each orbit has a unique representative
+whose first coordinate is $\FAL$.
+
+\begin{proposition}\label{prop:A1}
+For $i\ne j$, define
+\begin{align*}
+Eq_{ij}(x)&=\joink\bigl(\meetk(x_i,x_j),\,\meetk(P(x_i),P(x_j))\bigr),\\
+Neq_{ij}(x)&=\joink\bigl(\meetk(x_i,P(x_j)),\,\meetk(P(x_i),x_j)\bigr).
+\end{align*}
+On $R^n$, both maps are $E$-valued. Moreover, $Eq_{ij}(x)=\CON\iff
+x_i=x_j$ and $Neq_{ij}(x)=\CON\iff x_i\ne x_j$.
+\end{proposition}
+
+\begin{proof}
+Check the four resolved input pairs. If $x_i=x_j$, then exactly one of the
+two inner meets in the definition of $Eq_{ij}$ contributes a resolved value
+and the other contributes its $P$-partner, so the outer join is $\CON$;
+otherwise both inner meets are $\UNK$. The same calculation with one rail
+swapped gives the statement for $Neq_{ij}$.
+\end{proof}
+
+For $\alpha\in\{0,1\}^{n-1}$, define
+$D_\alpha(x)=\bigwedge_{j=2}^{n}B_j(x)$, where $B_j=Eq_{1j}$ if
+$\alpha_{j-1}=0$ and $B_j=Neq_{1j}$ if $\alpha_{j-1}=1$. For
+$A\subseteq\{0,1\}^{n-1}$, set $D_A=\bigvee_{\alpha\in A}D_\alpha$.
+
+\begin{proposition}
+Each $D_\alpha$ is $E$-valued and satisfies $D_\alpha(x)=\CON$ exactly on
+the $P$-orbit indexed by $\alpha$, while $D_\alpha(x)=\UNK$ on all other
+orbits.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:A1}, each factor $B_j$ detects whether the $j$-th
+coordinate agrees or disagrees with the first coordinate exactly as
+prescribed by $\alpha$. Since the factors are $E$-valued, their
+knowledge-meet acts as conjunction on these orbit conditions. Hence
+$D_\alpha=\CON$ exactly on the orbit with pattern $\alpha$.
+\end{proof}
+
+\subsection{The outer resolved-face crown}
+
+\begin{remark}
+The broader carrier companion line proves the following resolved-face crown
+fact: before adjoining any resolved constant, the $R$-valued restrictions
+of $G$ on $R^n$ are exactly the $P$-equivariant maps $h:R^n\to R$, and
+their count is $2^{2^{n-1}}$. In the present paper we use only the
+qualitative boundary consequence that the zero-constant outer fragment
+remains inside the $P$-equivariant crown.
+\end{remark}
+
+\subsection{One resolved constant completes the outer fragment}
+
+\begin{remark}
+The same companion line also proves that adjoining one resolved constant
+completes the outer resolved-face fragment to all maps $R^n\to R$. The
+present paper uses only the resulting outer zero/one accessibility
+contrast, not the full theorem-proof package itself. This binary outer
+boundary is kept only as context around the finer exact theorem
+$\nu(f)=\dec(f)$.
+\end{remark}
+
+\section{Proof of the Corrected Expressive-Collapse Theorem}
+
+This appendix expands the proof of Theorem~\ref{thm:collapse} only to the
+extent needed for the present paper's self-contained
+carrier-to-resolved-face gateway.
+
+\subsection{Rail-swap normal form}
+
+\begin{proof}[Proof of Lemma~\ref{lem:soundness}]
+Proceed by induction on the term $t$. For a projection $t(x)=x_i=(p_i,q_i)$,
+take $\phi_t(\bits(x))=p_i$; then
+$t(x)=(\phi_t(\bits(x)),\phi_t(S(\bits(x))))$.
+
+If the claim holds for $u$ and $v$, it is preserved by $\meetk$ and
+$\joink$ because these are coordinatewise Boolean conjunction and
+disjunction on $\{0,1\}^2$. Hence the first coordinate of $u\meetk v$ is
+$\phi_u\wedge\phi_v$, and the first coordinate of $u\joink v$ is
+$\phi_u\vee\phi_v$.
+
+If the claim holds for $u$, then it also holds for $P(u)$ because applying
+$P$ interchanges the two coordinates:
+$P(u)(x)=(\phi_u(S(\bits(x))),\phi_u(\bits(x)))$. Thus one may take
+$\phi_{P(u)}=\phi_u\circ S$.
+
+If the claim holds for $u$, then it also holds for $\sigma_s(u)$ because
+$\sigma_s(a,b)=(1-a,1-b)$:
+$\sigma_s(u)(x)=(1-\phi_u(\bits(x)),\,1-\phi_u(S(\bits(x))))$. Hence one
+may take $\phi_{\sigma_s(u)}=\neg\phi_u$.
+
+This completes the induction. In particular, every term operation obtained
+from the generators is $P$-equivariant.
+\end{proof}
+
+\subsection{Formula lifting}
+
+\begin{proof}[Proof of Lemma~\ref{lem:lifting}]
+Translate Boolean formulas recursively into carrier terms. For a positive
+rail variable $p_i$, use the carrier variable $x_i$ itself. For a negative
+rail variable $q_i$, use $P(x_i)$, whose first coordinate is $q_i$. For
+conjunction and disjunction, use $\meetk$ and $\joink$. For negation, use
+$\sigma_s$. More precisely, define a term $T_\phi$ by recursion on $\phi$:
+\[
+T_{p_i}=x_i,\quad T_{q_i}=P(x_i),\quad
+T_{\phi\wedge\psi}=T_\phi\meetk T_\psi,\quad
+T_{\phi\vee\psi}=T_\phi\joink T_\psi,\quad
+T_{\neg\phi}=\sigma_s(T_\phi).
+\]
+An induction on the Boolean formula now shows that the first coordinate of
+$T_\phi(x)$ is exactly $\phi(\bits(x))$, while the second coordinate is the
+same formula evaluated on the swapped bit tuple $S(\bits(x))$.
+\end{proof}
+
+\subsection{Collapse to the full \texorpdfstring{$P$}{P}-equivariant clone}
+
+\begin{proof}[Proof of Theorem~\ref{thm:collapse}]
+The inclusion $C_n\subseteq\Eqv_P(n)$ is exactly the final sentence of
+Lemma~\ref{lem:soundness}. For the converse, let $f\in\Eqv_P(n)$. Define
+the Boolean coordinate function $\phi_f(\bits(x))=\pi_1(f(x))$, where
+$\pi_1$ denotes the first rail coordinate. Since $f$ is $P$-equivariant,
+the second rail coordinate is determined by the same function on the
+swapped tuple: $f(x)=(\phi_f(\bits(x)),\,\phi_f(S(\bits(x))))$.
+Lemma~\ref{lem:lifting} therefore produces a carrier term $T_{\phi_f}$ with
+exactly this value, so $f\in C_n$.
+\end{proof}
+
+\section{Decompression and Transfer Lemmas}
+
+This appendix records the table-level lemmas behind the absorbed recovered
+resolved-face operations.
+
+\subsection{Escaping mixed cases}
+
+\begin{proposition}\label{prop:C1}
+For $a,b\in R=\{\FAL,\TRU\}$, the internal carrier operations stay in $R$
+except on the mixed inputs, where they escape in exactly one way:
+$\meetk(\FAL,\TRU)=\meetk(\TRU,\FAL)=\UNK$ and
+$\joink(\FAL,\TRU)=\joink(\TRU,\FAL)=\CON$.
+\end{proposition}
+
+\begin{proof}
+This is an immediate coordinatewise calculation in the dual-rail model
+$\FAL=(0,1)$, $\TRU=(1,0)$. Taking coordinatewise meet produces
+$(0,0)=\UNK$, while taking coordinatewise join produces $(1,1)=\CON$. On
+the unmixed inputs, one obtains the original resolved state again.
+\end{proof}
+
+\subsection{Recovered resolved-face operations}
+
+\begin{proposition}\label{prop:C2}
+With the designated re-entry data $\rho_{\mathrm{meet}}(\UNK)=\FAL$,
+$\rho_{\mathrm{join}}(\CON)=\TRU$, and
+$\rho_{\mathrm{meet}}|_R=\rho_{\mathrm{join}}|_R=\mathrm{id}_R$, the
+absorbed recovered operations satisfy $\meetR(a,b)=\min(a,b)$ and
+$\joinR(a,b)=\max(a,b)$ for all $a,b\in R$.
+\end{proposition}
+
+\begin{proof}
+On unmixed pairs, Proposition~\ref{prop:C1} shows that the internal
+operation already lands in $R$, so the re-entry maps act trivially. On the
+two mixed pairs, the meet case lands in $\UNK$ and is sent back to $\FAL$,
+while the join case lands in $\CON$ and is sent back to $\TRU$. This is
+exactly the two-point chain minimum and maximum on $R=\{\FAL,\TRU\}$.
+\end{proof}
+
+\begin{corollary}
+The resolved-face term language used in Section~\ref{sec:transfer} is not
+the plain restriction of the internal carrier generators. It is the
+absorbed $R$-face obtained by evaluating $\meetk$ and $\joink$ in the
+carrier and then applying the designated re-entry data on the two escaping
+mixed cases.
+\end{corollary}
+
+\begin{proof}
+The failure of plain restriction is Proposition~\ref{prop:plain}. The
+recovered operations are Proposition~\ref{prop:C2}.
+\end{proof}
+
+\subsection{Witness-independence at the resolved endpoints}
+
+\begin{proposition}\label{prop:C4}
+Suppose $\rho'_{\mathrm{meet}}$ and $\rho'_{\mathrm{join}}$ are alternative
+designated re-entry maps with the same endpoint values:
+$\rho'_{\mathrm{meet}}|_R=\mathrm{id}_R$,
+$\rho'_{\mathrm{meet}}(\UNK)=\FAL$,
+$\rho'_{\mathrm{join}}|_R=\mathrm{id}_R$,
+$\rho'_{\mathrm{join}}(\CON)=\TRU$. Then the induced binary operations on
+$R$ agree with $\meetR$ and $\joinR$ on all inputs from $R^2$.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{prop:C1} shows that the only possible outputs of $\meetk$
+on $R^2$ are $\FAL,\TRU,\UNK$, and the only possible outputs of $\joink$ on
+$R^2$ are $\FAL,\TRU,\CON$. The two re-entry systems agree on exactly these
+values. Hence they induce identical binary operations on the resolved face.
+\end{proof}
+
+\begin{remark}
+This extensional agreement does not imply uniqueness of the surrounding
+carrier realization. Different decompressed witness systems may still
+behave differently away from the endpoint values used here. The paper does
+not count or classify that ambient witness dependence.
+\end{remark}
+
+\subsection{Transport to the recovered resolved-face language}
+
+\begin{proposition}
+Let $\sigma=P|_R$. Then the term language generated on $R$ by $\meetR$,
+$\joinR$, $\sigma$ is exactly the recovered resolved-face language used in
+Section~\ref{sec:transfer}.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{prop:C2} identifies $\meetR$ and $\joinR$ with the
+two-point minimum and maximum on $R=\{\FAL,\TRU\}$. The unary map
+$\sigma=P|_R$ exchanges the two resolved endpoints. These are precisely the
+operations used in the recovered resolved-face term algebra.
+\end{proof}
+
+\begin{remark}[Safe transfer principle]
+The appendix proves only the narrow statement needed in the main text: the
+resolved-face language is not obtained by plain restriction, but by
+absorbed re-entry on the two escaping mixed cases. It does not prove a
+quotient theorem, a congruence-image theorem, or any theorem counting
+ambient witness use.
+\end{remark}
+
+\section{Exact Negation Complexity on the Resolved Face}\label{app:D}
+
+This appendix gives the proof of Theorem~\ref{thm:exact}. In this edition
+the exact-cost argument has three layers: lower-bound charging, the
+interval-shell decrement made unconditional by the new lemma
+$W_f\subseteq B_f$, and inductive completion.
+
+\paragraph{Comparison with the original preprint.}
+The original appendix carried three further layers --- local witness
+reduction, star-local fiber coherence, and a five-case rerouting package
+--- to handle a residual family of shells assumed to fall outside the
+interval regime. Theorem~\ref{thm:WB} below shows that this residual family
+is empty: the containment $W_f\subseteq B_f$ holds for every nonconstant
+$f$, so the interval-shell regime already covers every inductive step. The
+removed layers were never reachable; no error in them was implicated. This
+simplification was found during the machine-verified audit of the appendix.
+
+\subsection{Lower-Bound Charging}
+
+Let $R=\{\FAL,\TRU\}$ with the chain order $\FAL<\TRU$, and let $R^n$ carry
+the componentwise order. For a maximal chain $C=(c_0<\dots<c_n)$ define
+$\desc(f,C)$ to be the number of indices $i$ such that $f(c_i)=\TRU$,
+$f(c_{i+1})=\FAL$. Set $\mcr(f)=\max_C \desc(f,C)$. On the two-point chain
+one has $\mcr(f)=\dec(f)$.
+
+\begin{lemma}\label{lem:D1}
+If $t$ is a projection, then $\desc(t,C)=0$ for every maximal chain $C$.
+\end{lemma}
+
+\begin{proof}
+A projection is monotone on $R^n$, so along any increasing chain it can
+change only from $\FAL$ to $\TRU$, never from $\TRU$ to $\FAL$.
+\end{proof}
+
+\begin{lemma}\label{lem:D2}
+For resolved-face terms $u$ and $v$, and every maximal chain $C$,
+\[
+\desc(\meetR(u,v),C)\le\desc(u,C)+\desc(v,C),\qquad
+\desc(\joinR(u,v),C)\le\desc(u,C)+\desc(v,C).
+\]
+\end{lemma}
+
+\begin{proof}
+If $\meetR(u,v)$ descends at a step of $C$, then both inputs are $\TRU$
+below and at least one is $\FAL$ above, so that descent is charged to an
+input descent. If $\joinR(u,v)$ descends, then both inputs are $\FAL$ above
+and at least one is $\TRU$ below, so again the descent is charged to an
+input descent. Summing over all steps gives the inequalities.
+\end{proof}
+
+\begin{lemma}\label{lem:D3}
+For every resolved-face term $u$ and maximal chain $C$,
+$\desc(\sigma(u),C)\le\desc(u,C)+1$.
+\end{lemma}
+
+\begin{proof}
+Along a fixed chain, applying $\sigma$ exchanges $\FAL$ and $\TRU$, so
+descents of $\sigma(u)$ are ascents of $u$. In any binary word, the number
+of ascents exceeds the number of descents by at most one.
+\end{proof}
+
+\begin{proposition}[Lower-bound charging]\label{prop:D4}
+If a resolved-face term $t$ computes $f:R^n\to R$, then $\mcr(f)\le\nu(t)$.
+In particular, $\dec(f)=\mcr(f)\le\nu(f)$.
+\end{proposition}
+
+\begin{proof}
+Proceed by structural induction on $t$. Lemma~\ref{lem:D1} handles
+projections. Lemma~\ref{lem:D2} handles $\meetR$ and $\joinR$.
+Lemma~\ref{lem:D3} handles one occurrence of $\sigma$, which can add at
+most one new descent along any chain. Therefore any term computing $f$ has
+at least $\mcr(f)$ occurrences of $\sigma$. Taking the minimum over all
+such terms gives $\mcr(f)\le\nu(f)$, and $\mcr(f)=\dec(f)$ on the two-point
+chain.
+\end{proof}
+
+\subsection{Interval-Shell Decrement}
+
+Assume now that $f:R^n\to R$ is nonconstant and non-monotone. Define
+\[
+A_f=\{x: f(x)=\TRU\},\qquad
+G_f={\uparrow}A_f\setminus A_f,\qquad
+B_f=A_f\setminus{\uparrow}G_f.
+\]
+Let $W_f$ be the union of the first $\TRU$-blocks over all worst chains of
+$f$. For $S\subseteq R^n$, define the lowered residual $f_S$ by
+$f_S(x)=\FAL$ for $x\in S$, $f_S(x)=f(x)$ otherwise.
+
+\begin{proposition}[One-$\sigma$ realization for interval shells]
+\label{prop:D5}
+Let $S$ be an $A_f$-ideal with $W_f\subseteq S\subseteq B_f$. Then $\chi_S$
+is definable with at most one occurrence of $\sigma$.
+\end{proposition}
+
+\begin{proof}
+Set $U_S={\uparrow}S$, $E_S=U_S\setminus S$. Then
+$S=U_S\setminus{\uparrow}(E_S)$. If $E_S=\varnothing$, then $S=U_S$ is an
+upset and $\chi_S$ is negation-free. Otherwise,
+$\chi_S=\meetR(\chi_{U_S},\,\sigma(\chi_{{\uparrow}(E_S)}))$, so one
+occurrence of $\sigma$ suffices.
+\end{proof}
+
+\begin{lemma}[Worst-chain shell identity]\label{lem:D6}
+If $C$ is a worst chain for $f$, then $B_f\cap C$ is exactly the first
+$\TRU$-block of $f$ on $C$.
+\end{lemma}
+
+\begin{proof}
+Let the first descent on $C$ occur at $c_j\to c_{j+1}$. Then
+$c_{j+1}\in G_f$, so every point strictly above the first $\TRU$-block lies
+in ${\uparrow}G_f$ and hence outside $B_f$. Points below that block are
+outside $A_f$, so they are also outside $B_f$. The first $\TRU$-block
+itself lies in $B_f$.
+\end{proof}
+
+\begin{lemma}[Chain-prefix property]\label{lem:D7}
+Let $S$ be an $A_f$-ideal with $S\subseteq B_f$. Then on every maximal
+chain $C$, the set $S\cap C$ is a lower prefix of each $\TRU$-block of $f$
+on $C$.
+\end{lemma}
+
+\begin{proof}
+If $x<y$ lie in the same $\TRU$-block on $C$ and $y\in S$, then $y\in B_f$.
+Lemma~\ref{lem:D6} implies that $x$ also lies in $B_f$. Since $x\in A_f$
+and $S$ is downward closed inside $A_f$, it follows that $x\in S$.
+\end{proof}
+
+\begin{corollary}[No new descents]\label{cor:D8}
+Under the hypotheses of Lemma~\ref{lem:D7}, for every maximal chain $C$,
+$\desc(f_S,C)\le\desc(f,C)$.
+\end{corollary}
+
+\begin{proof}
+Lowering only shortens lower prefixes of existing $\TRU$-blocks, so it
+cannot create a new $\TRU\to\FAL$ boundary.
+\end{proof}
+
+\begin{theorem}[Exact one-step decrement for interval shells]
+\label{thm:decrement}
+Let $S$ be an $A_f$-ideal with $W_f\subseteq S\subseteq B_f$. Then
+$\mcr(f_S)=\mcr(f)-1$.
+\end{theorem}
+
+\begin{proof}
+Fix a worst chain $C$ for $f$. Since $W_f\subseteq S$, the first
+$\TRU$-block on $C$ lies in $S$. Since $S\subseteq B_f$,
+Lemma~\ref{lem:D6} forces $S\cap C$ to lie inside that same first block.
+Hence $S\cap C$ is exactly the first $\TRU$-block, and deleting it lowers
+the descent count on $C$ by exactly one.
+
+For any other maximal chain $D$, Corollary~\ref{cor:D8} gives
+$\desc(f_S,D)\le\desc(f,D)$. If $D$ is non-worst, then
+$\desc(f,D)\le\mcr(f)-1$. If $D$ is worst, the same first-block argument
+gives $\desc(f_S,D)=\mcr(f)-1$. Thus all chains have at most $\mcr(f)-1$
+descents after lowering, and at least one worst chain has exactly that
+many.
+\end{proof}
+
+\begin{corollary}[Forward interval-shell safety]\label{cor:D10}
+Every $A_f$-ideal $S$ with $W_f\subseteq S\subseteq B_f$ gives a one-step
+safe shell: it is realized by one occurrence of $\sigma$, and lowering
+along it decreases $\mcr$ by exactly one.
+\end{corollary}
+
+\begin{proof}
+Combine Proposition~\ref{prop:D5} with Theorem~\ref{thm:decrement}.
+\end{proof}
+
+\begin{theorem}[$\bigstar$ Unconditional containment $W_f\subseteq B_f$]
+\label{thm:WB}
+For every nonconstant, non-monotone $f:R^n\to R$, $W_f\subseteq B_f$.
+\end{theorem}
+
+\begin{proof}
+Suppose not: some $w\in W_f$ lies outside $B_f$. Since
+$w\in W_f\subseteq A_f$, this means $w\in{\uparrow}G_f$, so there is a gap
+point $g\in G_f$ with $g\le w$, and by the definition of $G_f$ a point
+$a\in A_f$ with $a\le g$, $f(a)=\TRU$, $f(g)=\FAL$. Both containments are
+strict: $a\ne g$ because $f(a)\ne f(g)$, and $g\ne w$ because $f(g)=\FAL$
+while $f(w)=\TRU$. So $a<g<w$.
+
+Since $w\in W_f$, there is a worst chain $C$ for $f$ whose first
+$\TRU$-block contains $w$. On $C$, no descent occurs before the first
+$\TRU$-block, so all $\mcr(f)$ descents of $C$ occur on the segment of $C$
+from $w$ upward.
+
+Build an increasing chain $X$: ascend to $a$, then to $g$, then to $w$,
+then follow $C$ upward from $w$. The segment through $a<g<w$ contributes at
+least one descent (its $f$-word passes from $\TRU$ at $a$ to $\FAL$ at
+$g$), and the tail from $w$ contributes $\mcr(f)$ descents. By the
+refinement lemma (Lemma~\ref{lem:E4}), some maximal chain has at least as
+many descents as $X$, so $\mcr(f)\ge\desc(f,X)\ge 1+\mcr(f)$, a
+contradiction.
+\end{proof}
+
+\begin{corollary}[Canonical shell --- the interval regime is total]
+\label{cor:D12}
+For every nonconstant, non-monotone $f$, the $A_f$-ideal closure of $W_f$,
+$S_f=A_f\cap{\downarrow}W_f$, satisfies $W_f\subseteq S_f\subseteq B_f$.
+Hence the interval-shell decrement of Corollary~\ref{cor:D10} applies at
+every inductive step: every nonconstant non-monotone $f$ admits a
+one-$\sigma$ shell whose lowering decreases $\mcr$ by exactly one.
+\end{corollary}
+
+\begin{proof}
+$S_f$ is an $A_f$-ideal containing $W_f$ by construction. For
+$S_f\subseteq B_f$, let $x\in S_f$, so $x\in A_f$ and $x\le w$ for some
+$w\in W_f$. If $x$ were outside $B_f$, there would be a gap point
+$g\in G_f$ with $g\le x\le w$, contradicting $w\in B_f$
+(Theorem~\ref{thm:WB}).
+\end{proof}
+
+\subsection{Inductive Completion}
+
+\begin{proposition}[Monotone base case]\label{prop:D13}
+Let $f:R^n\to R$ be nonconstant. If $\mcr(f)=0$, then $f$ is monotone and
+therefore has a negation-free resolved-face term.
+\end{proposition}
+
+\begin{proof}
+If $\mcr(f)=0$, then no increasing chain contains a descent
+$\TRU\to\FAL$, so $f$ is monotone. Hence $A_f$ is an upset. Since $f$ is
+nonconstant, the usual monotone formula
+$f=\bigvee_{a\in\mathrm{Min}(A_f)}\ \bigwedge_{i:\,a_i=\TRU}x_i$ computes
+$f$ using only $\meetR$ and $\joinR$.
+\end{proof}
+
+\begin{theorem}[Upper bound]\label{thm:D14}
+For every nonconstant function $f:R^n\to R$, $\nu(f)\le\mcr(f)$.
+\end{theorem}
+
+\begin{proof}
+We induct on $\mcr(f)$. If $\mcr(f)=0$, Proposition~\ref{prop:D13} gives
+$\nu(f)=0$.
+
+Assume $\mcr(f)>0$ and the claim already holds for all nonconstant
+functions of smaller $\mcr$. Since $\mcr(f)>0$, $f$ is non-monotone, so by
+Corollary~\ref{cor:D12} the canonical shell $S_f$ is an $A_f$-ideal with
+$W_f\subseteq S_f\subseteq B_f$, and Corollary~\ref{cor:D10} gives a
+one-$\sigma$ lowering step whose residual $f_1=f_{S_f}$ satisfies
+$\mcr(f_1)=\mcr(f)-1$. One occurrence of $\sigma$ realizes the first step
+and reconstruction uses only monotone context. Hence
+$\nu(f)\le 1+\nu(f_1)$. By the induction hypothesis,
+$\nu(f_1)\le\mcr(f_1)=\mcr(f)-1$. Therefore $\nu(f)\le\mcr(f)$.
+\end{proof}
+
+\begin{corollary}[Exact equality]
+For every nonconstant $f:R^n\to R$, $\nu(f)=\mcr(f)=\dec(f)$.
+\end{corollary}
+
+\begin{proof}
+The lower bound is Proposition~\ref{prop:D4} and the upper bound is
+Theorem~\ref{thm:D14}. Since $\mcr(f)=\dec(f)$ on the two-point chain, all
+three quantities are equal.
+\end{proof}
+
+\section{Auxiliary Chain-Reversal Tools}
+
+This appendix records a small amount of chain notation used as bookkeeping
+for Appendix~\ref{app:D}.
+
+\subsection{Upward edges and descending edges}
+
+Let $X=(x^{(0)}<x^{(1)}<\dots<x^{(m)})$ be an increasing chain in $R^n$.
+Write $\Lambda^{up}(X)=\{(x^{(j)},x^{(j+1)}): 0\le j<m\}$ for its set of
+adjacent upward edges. For $f:R^n\to R$, define the descending edge set
+$\Delta_f(X)=\{(u,v)\in\Lambda^{up}(X): f(u)>f(v)\}$. Then
+$\mcr_X(f):=|\Delta_f(X)|$ is the chainwise reversal count, and
+$\mcr(f)=\max_X \mcr_X(f)$ is the global maximum over increasing chains.
+
+\subsection{Ascents and descents in binary chain words}
+
+Let $w=(w_0,\dots,w_m)\in R^{m+1}$ be a binary word. Write $\asc(w)$ for
+the number of indices $j$ with $w_j=\FAL$ and $w_{j+1}=\TRU$, and
+$\desc(w)$ for the number of indices $j$ with $w_j=\TRU$ and
+$w_{j+1}=\FAL$.
+
+\begin{lemma}\label{lem:E1}
+For every binary word $w$, $\asc(w)\le\desc(w)+1$.
+\end{lemma}
+
+\begin{proof}
+Read the word from left to right and decompose it into maximal constant
+blocks. Every ascent starts a $\TRU$-block, and every descent ends one. At
+most one $\TRU$-block can fail to be preceded by a descent, namely the
+initial $\TRU$-block if the word begins at $\TRU$. Hence the number of
+ascents exceeds the number of descents by at most one.
+\end{proof}
+
+\begin{corollary}
+Let $X$ be an increasing chain and let $\sigma$ exchange $\FAL$ and $\TRU$.
+Then $\mcr_X(\sigma\circ f)\le\mcr_X(f)+1$.
+\end{corollary}
+
+\begin{proof}
+Along the chain $X$, descents of $\sigma\circ f$ are ascents of the binary
+word defined by $f$. Apply Lemma~\ref{lem:E1}.
+\end{proof}
+
+\subsection{Prefix lowering lemma}
+
+\begin{lemma}\label{lem:E3}
+Fix a binary word along an increasing chain, and lower some $\TRU$-entries
+to $\FAL$. If the lowered set is a lower prefix inside each maximal
+$\TRU$-block, then no new descending edge is created.
+\end{lemma}
+
+\begin{proof}
+Inside a single maximal $\TRU$-block, lowering a lower prefix changes a
+block of the form $\TRU\cdots\TRU$ into
+$\FAL\cdots\FAL\,\TRU\cdots\TRU$. This creates at most one new ascent
+inside the block and never a new descent. At the block boundaries, the
+left boundary can only move from $\FAL\,\TRU$ to $\FAL\,\FAL$, and the
+right boundary can only move from $\TRU\,\FAL$ to either $\TRU\,\FAL$ or
+$\FAL\,\FAL$. Hence the number of descents does not increase.
+\end{proof}
+
+\subsection{Subchain refinement lemma}
+
+\begin{lemma}\label{lem:E4}
+Every increasing chain $X$ in $R^n$ extends to a maximal chain $C$ with
+$\desc(f,C)\ge\mcr_X(f)$. Hence the maximum over increasing chains in the
+definition of $\mcr$ agrees with the maximum over maximal chains.
+\end{lemma}
+
+\begin{proof}
+Refine each upward edge $u<v$ of $X$ into a saturated cover path from $u$
+to $v$ and concatenate, extending below the bottom of $X$ and above its top
+to a maximal chain $C$. If $(u,v)$ is a descending edge of $X$, the
+$f$-word along the inserted cover path starts at $\TRU$ and ends at $\FAL$,
+so it contains at least one descending cover step. Distinct edges of $X$
+refine to disjoint segments of $C$, so
+$\desc(f,C)\ge|\Delta_f(X)|=\mcr_X(f)$.
+\end{proof}
+
+\begin{remark}
+Appendix~\ref{app:D} uses Lemmas~\ref{lem:E3} and~\ref{lem:E4} in the
+interval-shell argument and in Theorem~\ref{thm:WB}. They are recorded
+separately here only to keep the main exact-cost appendix shorter.
+\end{remark}
+
+\begin{thebibliography}{9}
+\bibitem{cohomnote} W.~C. Yang. \emph{The cohomological price of NOT.}
+Zenodo, 2026. DOI: 10.5281/zenodo.21775055. (Companion note; cites the
+present paper and mechanizes the nested tower used in Appendix~D's Lean
+artifact.)
+\bibitem{markov} A.~A. Markov. \emph{On the inversion complexity of a
+system of functions.} J.~ACM 5(4), 331--334, 1958. (Russian original:
+Doklady AN SSSR 116(6), 917--919, 1957.)
+\bibitem{morizumi} H.~Morizumi. \emph{Limiting Negations in Formulas.}
+ICALP 2009, LNCS 5555, 701--712. (Preliminary version: arXiv:0811.0699,
+2008.)
+\bibitem{bennett} C.~H. Bennett. \emph{Logical reversibility of
+computation.} IBM J.~Res.~Dev. 17(6):525--532, 1973.
+\bibitem{landauer} R.~Landauer. \emph{Irreversibility and heat generation
+in the computing process.} IBM J.~Res.~Dev. 5(3):183--191, 1961.
+\bibitem{lau} D.~Lau. \emph{Function Algebras on Finite Sets.} Springer,
+2006.
+\bibitem{post} E.~L. Post. \emph{The Two-Valued Iterative Systems of
+Mathematical Logic.} Princeton University Press, 1941.
+\bibitem{wcy1} W.~C. Yang. \emph{Finite-Energy Epistemic Logic with
+Conservative Pointed Extension and Negation Geometry.} 2026. (Paper~I;
+companion release: \url{https://github.com/ycmath/finite-energy-epistemic-logic}.
+An earlier draft circulated as ``Finite-energy epistemic logic with
+T0-preserving open updates''.)
+\end{thebibliography}
+
+\section*{Authorship \& provenance}
+
+Won Chul Yang, independent researcher. This paper and its companion Lean
+artifact were produced in collaboration with an AI research loop operated
+by the author (frontier language models --- Anthropic Claude family --- for
+discovery, formalization, and adversarial verification), \textbf{with the
+Lean~4 kernel as the final acceptance gate}. The interval single-regime
+simplification of Appendix~D (Theorem~\ref{thm:WB}) was found during a
+machine audit of the original proof. The author directed the research
+programme and verified the pipeline; in line with the author's
+research-ethics policy, no claim of academic priority is made beyond full
+disclosure of how the work was produced. Corrections are invited.
+
+Licenses: Apache-2.0 (Lean artifacts and verification scripts), CC~BY~4.0
+(text).
+
+\end{document}
