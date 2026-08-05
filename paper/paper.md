@@ -1,6 +1,6 @@
 # The Price of NOT on D4
 
-**Won Chul Yang** — Seoul, Republic of Korea — lamb5228@snu.ac.kr
+**Won Chul Yang** — Seoul, Republic of Korea — wcy0969@gmail.com
 
 *Public edition v1.0 (2026). Revised from the 2026 preprint: the exact-cost
 appendix is simplified to a single interval-shell regime via the new
@@ -41,7 +41,12 @@ determined the circuit inversion complexity as ⌈log₂(d(f)+1)⌉, and Morizum
 [3] proved the formula-level law is exact, I_for(f) = d(f). The present paper
 proves the formula-exact law in the four-valued dual-rail setting, with a
 proof intrinsic to the recovered resolved-face language; the relation to the
-Boolean transport route is discussed at Theorem 5.3.
+Boolean transport route is discussed at Theorem 5.3. For the surrounding
+negation-limited literature — the Markov-style upper-bound argument [9],
+constant-depth circuits [10], bounded-depth circuits [11], lower bounds
+against few negations [12], negation-limited formula structure [13], and
+multi-valued circuit-model laws [14] — the formula-exact multi-valued law
+proved here appears to be new.
 
 The supporting package has six layers:
 
@@ -985,34 +990,60 @@ exact-cost appendix shorter.
    J. ACM 5(4), 331–334, 1958. (Russian original: Doklady AN SSSR 116(6),
    917–919, 1957.)
 3. Hiroki Morizumi. *Limiting Negations in Formulas.* ICALP 2009, LNCS 5555,
-   701–712. (Preliminary version: arXiv:0811.0699, 2008.)
+   701–712. doi:10.1007/978-3-642-02927-1_58. (Preliminary version:
+   arXiv:0811.0699, 2008.)
 4. Charles H. Bennett. *Logical reversibility of computation.* IBM Journal
-   of Research and Development, 17(6):525–532, 1973.
+   of Research and Development, 17(6):525–532, 1973. doi:10.1147/rd.176.0525.
 5. Rolf Landauer. *Irreversibility and heat generation in the computing
    process.* IBM Journal of Research and Development, 5(3):183–191, 1961.
+   doi:10.1147/rd.53.0183.
 6. Dietlinde Lau. *Function Algebras on Finite Sets.* Springer, 2006.
+   doi:10.1007/3-540-36023-9.
 7. Emil L. Post. *The Two-Valued Iterative Systems of Mathematical Logic.*
-   Princeton University Press, 1941.
+   Princeton University Press, 1941. doi:10.1515/9781400882366.
 8. Won Chul Yang. *Finite-Energy Epistemic Logic with Conservative Pointed
    Extension and Negation Geometry.* 2026. (Paper I; companion release:
    https://github.com/ycmath/finite-energy-epistemic-logic. An earlier draft
    circulated as "Finite-energy epistemic logic with T0-preserving open
    updates".)
+9. Michael J. Fischer. *Lectures on network complexity.* Technical Report
+   1104, Yale University, 1974 (revised 1996).
+10. Miklos Santha, Christopher Wilson. *Limiting negations in constant
+    depth circuits.* SIAM J. Comput. 22(2):294–302, 1993.
+    doi:10.1137/0222022.
+11. Shao Chin Sung, Keisuke Tanaka. *Limiting negations in bounded-depth
+    circuits: an extension of Markov's theorem.* ISAAC 2003, LNCS 2906,
+    108–116. doi:10.1007/978-3-540-24587-2_13.
+12. Kazuyuki Amano, Akira Maruoka. *A superpolynomial lower bound for a
+    circuit computing the clique function with at most (1/6)·log log n
+    negation gates.* SIAM J. Comput. 35(1):201–216, 2005.
+    doi:10.1137/S0097539701396959.
+13. Siyao Guo, Ilan Komargodski. *Negation-limited formulas.*
+    APPROX/RANDOM 2015, LIPIcs.
+    doi:10.4230/LIPIcs.APPROX-RANDOM.2015.850.
+14. Valeriy V. Kochergin, Anna V. Mikhailovich. *The minimum number of
+    negations in circuits for systems of multi-valued functions.* Discrete
+    Mathematics and Applications, 2017. doi:10.1515/dma-2017-0030.
+    (Preliminary version: arXiv:1510.05942.)
 
 ---
 
 ## Authorship & provenance
 
-Won Chul Yang, independent researcher. This paper and its companion Lean
-artifact were produced in collaboration with an AI research loop operated by
-the author (frontier language models — Anthropic Claude family — for
-discovery, formalization, and adversarial verification), **with the Lean 4
-kernel as the final acceptance gate**. The interval single-regime
-simplification of Appendix D (Theorem D.11) was found during a machine
-audit of the original proof. The author directed the research programme and
-verified the pipeline; in line with the author's research-ethics policy, no
-claim of academic priority is made beyond full disclosure of how the work
-was produced. Corrections are invited.
+Won Chul Yang, independent researcher. **This paper is the author's own
+research**: the mathematical content — the definitions, theorems, and
+proofs, including the original preprint that this edition revises — is the
+author's original work. AI assistance (Anthropic Claude family) was used
+**only for the machine-verification layer**: the Lean 4 mechanization and
+the exhaustive machine audit/replay of the author's proofs, with the Lean 4
+kernel as the acceptance gate for that layer. The interval single-regime
+simplification (Theorem D.11) emerged from that machine audit of the
+author's Appendix D and was adopted by the author. This division of labor
+differs from the author's two earlier AI-collaborative releases
+(cohomological-price-of-not and inversion-wilf-spi), which were produced in
+an AI research loop and are labeled accordingly. No claim of academic
+priority is made beyond full disclosure of how the work was produced.
+Corrections are invited.
 
 Licenses: Apache-2.0 (Lean artifacts and verification scripts),
 CC BY 4.0 (text).

@@ -78,14 +78,17 @@ lake build
 
 ## Authorship & provenance
 
-Won Chul Yang, independent researcher. This paper and its Lean artifact were
-produced in collaboration with an AI research loop operated by the author
-(frontier language models — Anthropic Claude family — for discovery,
-formalization, and adversarial verification), with the Lean 4 kernel as the
-final acceptance gate. The interval single-regime simplification (Theorem
-D.11) was found during a machine audit of the original proof. No claim of
-academic priority is made beyond full disclosure of how the work was
-produced. Corrections are invited.
+Won Chul Yang, independent researcher. **This paper is the author's own
+research**: the mathematical content — definitions, theorems, proofs,
+including the original preprint this edition revises — is the author's
+original work. AI assistance (Anthropic Claude family) was used **only for
+the machine-verification layer**: the Lean 4 mechanization and the machine
+audit/replay of the author's proofs, with the Lean 4 kernel as the
+acceptance gate for that layer; the interval single-regime simplification
+(Theorem D.11) emerged from that audit and was adopted by the author. This
+differs from the author's two earlier AI-collaborative releases
+(cohomological-price-of-not, inversion-wilf-spi), which were produced in an
+AI research loop and are labeled accordingly. Corrections are invited.
 
 ## License
 
