@@ -4,9 +4,11 @@ title: "The Price of NOT on D4"
 authors:
   - family-names: "Yang"
     given-names: "Won Chul"
-version: "1.0.0"
+version: "1.0.3"
 date-released: 2026-08-05
-license: "Apache-2.0 AND CC-BY-4.0"
+license:
+  - Apache-2.0
+  - CC-BY-4.0
 repository-code: "https://github.com/ycmath/price-of-not-on-d4"
 abstract: >
   The exact resolved-face negation-complexity theorem nu(f) = dec(f) on the
