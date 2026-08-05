@@ -1002,7 +1002,8 @@ exact-cost appendix shorter.
 7. Emil L. Post. *The Two-Valued Iterative Systems of Mathematical Logic.*
    Princeton University Press, 1941. doi:10.1515/9781400882366.
 8. Won Chul Yang. *Finite-Energy Epistemic Logic with Conservative Pointed
-   Extension and Negation Geometry.* 2026. (Paper I; companion release:
+   Extension and Negation Geometry.* 2026. DOI: 10.5281/zenodo.21800031.
+   (Paper I; companion release:
    https://github.com/ycmath/finite-energy-epistemic-logic. An earlier draft
    circulated as "Finite-energy epistemic logic with T0-preserving open
    updates".)

@@ -2,6 +2,8 @@
 
 **Won Chul Yang** — public edition v1.0 (2026)
 
+DOI: [10.5281/zenodo.21800033](https://doi.org/10.5281/zenodo.21800033)
+
 The exact price of negation on the resolved face of the four-state dual-rail
 carrier D4: for every nonconstant `f : Rⁿ → R` on the resolved face
 `R = {FAL, TRU}`,
@@ -73,7 +75,7 @@ lake build
 - *Finite-Energy Epistemic Logic with Conservative Pointed Extension and
   Negation Geometry* — Paper I; companion release:
   https://github.com/ycmath/finite-energy-epistemic-logic
-  (an earlier draft circulated as "Finite-energy epistemic logic with
+  (DOI: 10.5281/zenodo.21800031; an earlier draft circulated as "Finite-energy epistemic logic with
   T0-preserving open updates").
 
 ## Authorship & provenance
