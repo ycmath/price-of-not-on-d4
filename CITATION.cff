@@ -1,24 +1,10 @@
-cff-version: 1.2.0
+cff-version: 1.1.0
 message: "If you use this work, please cite it as below."
-title: "The Price of NOT on D4"
 authors:
-  - family-names: "Yang"
-    given-names: "Won Chul"
-version: "1.0.3"
+  - family-names: Yang
+    given-names: Won Chul
+title: "The Price of NOT on D4"
+version: v1.0.4
 date-released: 2026-08-05
-license:
-  - Apache-2.0
-  - CC-BY-4.0
+license: Apache-2.0
 repository-code: "https://github.com/ycmath/price-of-not-on-d4"
-abstract: >
-  The exact resolved-face negation-complexity theorem nu(f) = dec(f) on the
-  four-state dual-rail carrier D4, proved in the recovered resolved-face
-  language and machine-verified in dependency-minimal Lean 4. Public edition
-  v1.0 simplifies the proof to a single interval-shell regime via the
-  unconditional containment W_f subset B_f.
-keywords:
-  - negation complexity
-  - inversion complexity
-  - dual-rail carriers
-  - resolved-face transfer
-  - Lean 4

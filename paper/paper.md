@@ -251,17 +251,17 @@ the proof used here is intrinsic to the recovered resolved-face language.
 nonconstant function f : Rⁿ → R, the minimal number ν(f) of syntactic
 negation occurrences is exactly the chain decrease number dec(f).*
 
-*Proof outline.* For the lower bound, projections contribute no chain
-reversal, meet_R and join_R are reversal-subadditive, and one occurrence of σ
-contributes at most one new reversal along any chain; see Appendix D.1. Hence
-mcr(f) ≤ ν(f).
-
-For the upper bound, Appendix D supplies a one-σ lowering step in a *single*
-regime: by Theorem D.11 the containment W_f ⊆ B_f holds unconditionally, so
-the A_f-ideal closure of W_f is always an interval shell S with
-W_f ⊆ S ⊆ B_f, realized by one occurrence of σ, and the lowered residual
-satisfies mcr(f_S) = mcr(f) − 1 (Theorem D.9). The inductive completion in
-Appendix D.3 then gives ν(f) ≤ mcr(f), hence ν(f) = dec(f). ∎
+*Proof.* The lower bound mcr(f) ≤ ν(f) is Proposition D.4: projections
+contribute no chain reversal (Lemma D.1), meet_R and join_R are
+reversal-subadditive (Lemma D.2), and one occurrence of σ contributes at
+most one new reversal along any chain (Lemma D.3). For the upper bound,
+Theorem D.11 gives the containment W_f ⊆ B_f unconditionally, so the
+canonical shell S_f = A_f ∩ ↓W_f is an A_f-ideal with W_f ⊆ S_f ⊆ B_f
+(Corollary D.12); Proposition D.5 realizes χ_{S_f} with one occurrence of
+σ, Theorem D.9 gives mcr(f_{S_f}) = mcr(f) − 1, and the induction of
+Theorem D.14 yields ν(f) ≤ mcr(f). Corollary D.15 assembles the exact
+equality ν(f) = mcr(f) = dec(f). Every cited result is proved in full in
+Appendix D. ∎
 
 This remains the sharp observable of the paper; the larger carrier story is
 used only as compact ambient support for this theorem and should not be read

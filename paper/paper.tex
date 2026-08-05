@@ -269,20 +269,22 @@ syntactic negation occurrences is exactly the chain decrease number
 $\dec(f)$.
 \end{theorem}
 
-\begin{proof}[Proof outline]
-For the lower bound, projections contribute no chain reversal, $\meetR$ and
-$\joinR$ are reversal-subadditive, and one occurrence of $\sigma$
-contributes at most one new reversal along any chain; see Appendix~D.1.
-Hence $\mcr(f)\le\nu(f)$.
-
-For the upper bound, Appendix~D supplies a one-$\sigma$ lowering step in a
-\emph{single} regime: by Theorem~\ref{thm:WB} the containment
-$W_f\subseteq B_f$ holds unconditionally, so the $A_f$-ideal closure of
-$W_f$ is always an interval shell $S$ with $W_f\subseteq S\subseteq B_f$,
-realized by one occurrence of $\sigma$, and the lowered residual satisfies
-$\mcr(f_S)=\mcr(f)-1$ (Theorem~\ref{thm:decrement}). The inductive
-completion in Appendix~D.3 then gives $\nu(f)\le\mcr(f)$, hence
-$\nu(f)=\dec(f)$.
+\begin{proof}
+The lower bound $\mcr(f)\le\nu(f)$ is Proposition~\ref{prop:D4}:
+projections contribute no chain reversal (Lemma~\ref{lem:D1}), $\meetR$
+and $\joinR$ are reversal-subadditive (Lemma~\ref{lem:D2}), and one
+occurrence of $\sigma$ contributes at most one new reversal along any
+chain (Lemma~\ref{lem:D3}). For the upper bound,
+Theorem~\ref{thm:WB} gives the containment $W_f\subseteq B_f$
+unconditionally, so the canonical shell
+$S_f=A_f\cap{\downarrow}W_f$ is an $A_f$-ideal with
+$W_f\subseteq S_f\subseteq B_f$ (Corollary~\ref{cor:D12});
+Proposition~\ref{prop:D5} realizes $\chi_{S_f}$ with one occurrence of
+$\sigma$, Theorem~\ref{thm:decrement} gives $\mcr(f_{S_f})=\mcr(f)-1$,
+and the induction of Theorem~\ref{thm:D14} yields $\nu(f)\le\mcr(f)$. The
+exact-equality corollary of Appendix~D assembles
+$\nu(f)=\mcr(f)=\dec(f)$. Every cited result is proved in full in
+Appendix~D.
 \end{proof}
 
 This remains the sharp observable of the paper; the larger carrier story is
